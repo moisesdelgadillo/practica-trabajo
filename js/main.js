@@ -45,20 +45,26 @@ const cargarDatos = async() => {
                 if(contador<=10){
                     const card = document.createElement("div");
                     trabajo += `
-                        <div class="ol-12 card mb-4 d-f flex-wrap">
+                        <div class="col-12 card mb-5 d-f flex-wrap shadow">
+                            <div class="card-header bg-dark text-white">
+                                <h2 class="display-6 text-uppercase text-center">${datos.data[i].Titulo} - <strong class="display-6">${datos.data[i].Empresa}</strong></h2>
+                                <p class="lead text-center mb-2">${datos.data[i].CatName}</p>
+                            </div>
                             <div class="card-body">
-                                <h2 class="display-6 text-uppercase text-center">${datos.data[i].Titulo}</h2>
-                                <p class="lead text-center mb-3">${datos.data[i].CatName}</p>
-                                <p class="lead">Empresa: <strong>${datos.data[i].Empresa}</strong></p>
-                                <p class="lead">Id: <strong>${datos.data[i].Id}</strong></p>
-                                <p class="lead">Puesto: <strong>${datos.data[i].Puesto}</strong></p>
-                                <p class="lead">Sueldo: <strong>${datos.data[i].Sueldo}</strong></p>
-                                <p class="lead">Moneda: <strong>${datos.data[i].Moneda}</strong></p>
-                                <p class="lead">Tipo de Empleo: <strong>${datos.data[i].TipoEmpleo}</strong></p>
-                                <p class="lead">Sueldo Tipo: <strong>${datos.data[i].SueldoTipo}</strong></p>
-                                <p class="lead">Estado: <strong>${datos.data[i].UbicacionEstado}</strong></p>
-                                <p class="lead">Ciudad: <strong>${datos.data[i].UbicacionCiudad}</strong></p>
-                                <p class="lead">Descripción: <strong>${datos.data[i].Descri}</strong></p>
+                                <div class="col-lg-12 d-lg-flex d-block justify-content-between">
+                                    <p class="lead d-lg-inline d-block">Id: <strong>${datos.data[i].Id}</strong></p>
+                                    <p class="lead d-lg-inline d-block">Puesto: <strong>${datos.data[i].Puesto}</strong></p>
+                                    <p class="lead d-lg-inline d-block">Sueldo: <strong>${datos.data[i].Sueldo}</strong></p>
+                                    <p class="lead d-lg-inline d-block">Moneda: <strong>${datos.data[i].Moneda}</strong></p>
+                                </div>
+                                <div class="col-lg-12 d-lg-flex d-block justify-content-between">
+                                    <p class="lead d-lg-inline d-block">Tipo de Empleo: <strong>${datos.data[i].TipoEmpleo}</strong></p>
+                                    <p class="lead d-lg-inline d-block">Sueldo Tipo: <strong>${datos.data[i].SueldoTipo}</strong></p>
+                                    <p class="lead d-lg-inline d-block">Estado: <strong>${datos.data[i].UbicacionEstado}</strong></p>
+                                    <p class="lead d-lg-inline d-block">Ciudad: <strong>${datos.data[i].UbicacionCiudad}</strong></p>
+                                </div>
+                                <hr>
+                                <p class="lead d-lg-inline d-block text-justify">Descripción: <strong>${datos.data[i].Descri}</strong></p>
                             </div>
                         </div>
                     `;
