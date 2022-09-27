@@ -15,6 +15,7 @@ btnSiguiente.addEventListener('click', ()=> {
         contador = 1;
         cargarDatos();
     }
+    window.scroll(0, 0);
 })
 
 btnAnterior.addEventListener('click', ()=> {
@@ -27,6 +28,7 @@ btnAnterior.addEventListener('click', ()=> {
         contador = 1;
         cargarDatos();
     }
+    window.scroll(0, 0);
 })
 
 const cargarDatos = async() => {
