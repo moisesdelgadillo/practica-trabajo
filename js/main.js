@@ -43,19 +43,21 @@ const cargarDatos = async() => {
                 if(contador<=10){
                     const card = document.createElement("div");
                     trabajo += `
-                        <div>
-                            <h2>${datos.data[i].Titulo}</h2>
-                            <p>${datos.data[i].CatName}</p>
-                            <p>${datos.data[i].Empresa}</p>
-                            <p>${datos.data[i].Id}</p>
-                            <p>${datos.data[i].Puesto}</p>
-                            <p>${datos.data[i].Sueldo}</p>
-                            <p>${datos.data[i].Moneda}</p>
-                            <p>${datos.data[i].TipoEmpleo}</p>
-                            <p>${datos.data[i].SueldoTipo}</p>
-                            <p>${datos.data[i].UbicacionEstado}</p>
-                            <p>${datos.data[i].UbicacionCiudad}</p>
-                            <p>${datos.data[i].Descri}</p>
+                        <div class="ol-12 card mb-4 d-f flex-wrap">
+                            <div class="card-body">
+                                <h2 class="display-6 text-uppercase text-center">${datos.data[i].Titulo}</h2>
+                                <p class="lead text-center mb-3">${datos.data[i].CatName}</p>
+                                <p class="lead">Empresa: <strong>${datos.data[i].Empresa}</strong></p>
+                                <p class="lead">Id: <strong>${datos.data[i].Id}</strong></p>
+                                <p class="lead">Puesto: <strong>${datos.data[i].Puesto}</strong></p>
+                                <p class="lead">Sueldo: <strong>${datos.data[i].Sueldo}</strong></p>
+                                <p class="lead">Moneda: <strong>${datos.data[i].Moneda}</strong></p>
+                                <p class="lead">Tipo de Empleo: <strong>${datos.data[i].TipoEmpleo}</strong></p>
+                                <p class="lead">Sueldo Tipo: <strong>${datos.data[i].SueldoTipo}</strong></p>
+                                <p class="lead">Estado: <strong>${datos.data[i].UbicacionEstado}</strong></p>
+                                <p class="lead">Ciudad: <strong>${datos.data[i].UbicacionCiudad}</strong></p>
+                                <p class="lead">Descripción: <strong>${datos.data[i].Descri}</strong></p>
+                            </div>
                         </div>
                     `;
     

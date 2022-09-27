@@ -9,22 +9,24 @@
 </head>
 <body>
     <div class="container">
-        <div class="row my-5">
-            <div class="col">
-                <h2 class="">Listado de trabajos</h2>
+        <header class="row my-5">
+            <div class="col-12 d-flex flex-column text-center">
+                <h2 class="display-5">Listado de trabajos</h2>
                 <hr>
             </div>
-        </div>
-        <div class="row my-5">
+        </header>
+        <main class="row mt-5">
             <div class="container col-12" id="cards">
                 
             </div>
             <hr>
+        </main>
+        <footer class="row mb-3">
             <div class="container col-12 d-flex justify-content-around">
-                <button class="btn btn-primary" id="btnAnterior">Anterior</button>
-                <button class="btn btn-primary" id="btnSiguiente">Siguiente</button>
+                <button class="btn btn-outline-dark" id="btnAnterior">Anterior</button>
+                <button class="btn btn-outline-dark" id="btnSiguiente">Siguiente</button>
             </div>
-        </div>
+        </footer>
     </div>
 
     <script src="js/main.js"></script>
