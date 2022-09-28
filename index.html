@@ -9,15 +9,74 @@
 </head>
 <body>
     <div class="container">
-        <header class="row my-5">
+        <header class="row mt-4 mb-2">
             <div class="col-12 d-flex flex-column text-center">
                 <h2 class="display-5">Listado de trabajos</h2>
                 <hr>
             </div>
         </header>
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" data-target="#menu" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex justify-content-around align-items-center" id="menu">
+                <div class="form-inline mb-sm-2">
+                    <input type="text" placeholder="Id..." class="form-control">
+                </div>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-outline-dark nav-link dropdown-toggle mx-2" data-bs-toggle="dropdown" data-target="desplegable">
+                            Puesto
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item">puesto1</button>
+                            <button class="dropdown-item">puesto2</button>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-outline-dark nav-link dropdown-toggle mx-2" data-bs-toggle="dropdown" data-target="desplegable">
+                            Sueldo
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item">puesto1</button>
+                            <button class="dropdown-item">puesto2</button>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-outline-dark nav-link dropdown-toggle mx-2" data-bs-toggle="dropdown" data-target="desplegable">
+                            Moneda
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item">puesto1</button>
+                            <button class="dropdown-item">puesto2</button>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-outline-dark nav-link dropdown-toggle mx-2" data-bs-toggle="dropdown" data-target="desplegable">
+                            Tipo Empleo
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item">FULL_TIME</button>
+                            <button class="dropdown-item">PART_TIME</button>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-outline-dark nav-link dropdown-toggle mx-2" data-bs-toggle="dropdown" data-target="desplegable">
+                            Ubicacion Estado
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item">puesto1</button>
+                            <button class="dropdown-item">puesto2</button>
+                        </div>
+                    </li>
+                </ul>
+                <div class="form-inline mb-sm-2">
+                    <button class="btn btn-outline-dark ">Enviar</button>
+                </div>
+            </div>
+        </nav>
         <main class="row mt-5">
             <div class="container col-12" id="cards">
-                
             </div>
             <hr>
         </main>
