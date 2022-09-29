@@ -9,12 +9,15 @@ const main = document.getElementById('main');
 const footer = document.getElementById('footer');
 const cardsFilter = document.getElementById('cards-filter');
 
+let estado = "";
+let tipoEmpleo = "";
+let mxn = "MXN";
+let sueldo = "";
+
 const sueldo1 = document.getElementById('sueldo1');
 const sueldo2 = document.getElementById('sueldo2');
 const sueldo3 = document.getElementById('sueldo3');
 const sueldo4 = document.getElementById('sueldo4');
-
-const mxn = "MXN";
 
 const ft = document.getElementById('ft');
 const pt = document.getElementById('pt');
@@ -40,13 +43,43 @@ const qui = document.getElementById('qui');
 const chi = document.getElementById('chi');
 const col = document.getElementById('col');
 const yu = document.getElementById('yu');
-let estado = "";
+
 
 let arregloUnicoEstado = [];
 let arregloUnicoEmpleo = [];
 let arregloUnicoMoneda = [];
 let arregloUnicoSueldo = [];
 let arregloUnicoPuesto = [];
+
+sueldo1.addEventListener('click', ()=>{
+    arregloUnicoSueldo = [];
+    sueldo = "10000";
+});
+
+sueldo2.addEventListener('click', ()=>{
+    arregloUnicoSueldo = [];
+    sueldo = "15000";
+});
+
+sueldo3.addEventListener('click', ()=>{
+    arregloUnicoSueldo = [];
+    sueldo = "20000";
+});
+
+sueldo4.addEventListener('click', ()=>{
+    arregloUnicoSueldo = [];
+    sueldo = "20001";
+});
+
+ft.addEventListener('click', ()=>{
+    arregloUnicoEmpleo = [];
+    tipoEmpleo = "FULL_TIME";
+});
+
+pt.addEventListener('click', ()=>{
+    arregloUnicoEmpleo = [];
+    tipoEmpleo = "PART_TIME";
+});
 
 ag.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
@@ -175,6 +208,47 @@ filtrado.addEventListener('click', ()=> {
 const busquedaFiltros = () =>{
 
 };
+
+const filtroTipoEmpleo = async() => {
+    try{
+        const respuesta = await fetch(url);
+
+        if(respuesta.status === 200){
+            const datos = await respuesta.json();
+
+            let x=0;
+            if(estado == ""){
+                datos.data.forEach(trabajos => {
+                    if(estado == datos.data[x].UbicacionEstado && arregloUnicoEstado.includes(datos.data[i].UbicacionEstado) == false){
+                        arregloUnicoEstado.push(datos.data[x].Id)
+                    }else{
+                    }
+                    x++;
+                });
+            }
+            if(arregloUnicoEstado.length == 0){
+                let cardFilter = '';
+                document.getElementById('filter').classList = "d-flex";
+                cardFilter += `
+                    <div>
+                        <p class="display-5 text-red">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    </div>
+                `;
+
+                document.getElementById('cards-filter').innerHTML = cardFilter;
+                main.classList = "d-none";
+                footer.classList = "d-none";
+            }else{
+                filtroTipoEmpleo();
+            }
+
+        } else if(respuesta.status === 404){
+            console.log("No se ha encontrado los datos solicitados.")
+        }
+    } catch(error){
+        console.log("Ha surgido el siguiente error: " + error)
+    }
+}
 
 const filtroUbicacionEstado = async() => {
     try{
