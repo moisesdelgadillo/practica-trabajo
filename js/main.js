@@ -8,6 +8,13 @@ const filtrado = document.getElementById('filtrado');
 const main = document.getElementById('main');
 const footer = document.getElementById('footer');
 const cardsFilter = document.getElementById('cards-filter');
+
+let puesto = '';
+let sueldo = '';
+let moneda = '';
+let tipoEmpleo = '';
+let ubicacionEstado = '';
+
 let id=0;
 
 btnSiguiente.addEventListener('click', ()=> {
@@ -86,10 +93,22 @@ const filtro = async() => {
                     main.classList = "d-none";
                     footer.classList = "d-none";
                     return;
-                }else{
+                }else if(id == ""){
                     main.classList = "d-flex";
                     footer.classList = "d-flex";
                     document.getElementById('filter').classList = "d-none";
+                }else{
+                    let cardFilter = '';
+                    document.getElementById('filter').classList = "d-flex";
+                    cardFilter += `
+                        <div>
+                            <p class="display-5 text-red">NO SE HA ENCONTRADO EL TRABAJO</p>
+                        </div>
+                    `;
+
+                    document.getElementById('cards-filter').innerHTML = cardFilter;
+                    main.classList = "d-none";
+                    footer.classList = "d-none";
                 }
                 x++;
             });
