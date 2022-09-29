@@ -49,66 +49,88 @@ let arregloUnicoSueldo = [];
 let arregloUnicoPuesto = [];
 
 ag.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Aguascalientes";
+    
 });
 ja.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Jalisco";
 });
 ta.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Tamaulipas";
 });
 nl.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Nuevo Leon";
 });
 cdmx.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "CDMX";
 });
 ve.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Veracruz";
 });
 so.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Sonora";
 });
 mex.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "México";
 });
 nln.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Nuevo León";
 });
 hi.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Hidalgo";
 });
 mo.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Morelos";
 });
 sl.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "San Luis Potosi";
 });
 gu.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Guanajuato";
 });
 que.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Querétaro";
 });
 pu.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Puebla";
 });
 na.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Nayarit";
 });
 du.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Durango";
 });
 qui.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Quintana Roo";
 });
 chi.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Chiapas";
 });
 col.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Colima";
 });
 yu.addEventListener('click', ()=>{
+    arregloUnicoEstado = [];
     estado = "Yucatán";
 });
 
