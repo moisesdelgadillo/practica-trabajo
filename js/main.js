@@ -1,18 +1,25 @@
 const url = "datos.json";
 let pagina = 0;
+let paginaF = 0;
 let i;
+let iF;
 let contador = 1;
+let contadorF = 1;
+let flag = 0;
 const btnSiguiente = document.getElementById('btnSiguiente');
 const btnAnterior = document.getElementById('btnAnterior');
-const filtrado = document.getElementById('filtrado');
 const main = document.getElementById('main');
 const footer = document.getElementById('footer');
 const cardsFilter = document.getElementById('cards-filter');
+const getFiltro = document.getElementById('filtro');
 
-let estado = "";
-let tipoEmpleo = "";
-let mxn = "MXN";
+let id = "";
+let puesto = "";
 let sueldo = "";
+let tipoEmpleo = "";
+let estado = "";
+
+const moneda = document.getElementById('moneda');
 
 const sueldo1 = document.getElementById('sueldo1');
 const sueldo2 = document.getElementById('sueldo2');
@@ -45,128 +52,180 @@ const col = document.getElementById('col');
 const yu = document.getElementById('yu');
 
 
-let arregloUnicoEstado = [];
-let arregloUnicoEmpleo = [];
-let arregloUnicoMoneda = [];
-let arregloUnicoSueldo = [];
+let arregloUnicoId = [];
 let arregloUnicoPuesto = [];
+let arregloUnicoSueldo = [];
+let arregloUnicoMoneda = [];
+let arregloUnicoEmpleo = [];
+let arregloUnicoEstado = [];
+
+getFiltro.addEventListener('click', ()=>{
+    filtro();
+});
+
+moneda.addEventListener('click', ()=>{
+    document.getElementById('btn-moneda').innerHTML = "MXN";
+});
 
 sueldo1.addEventListener('click', ()=>{
     arregloUnicoSueldo = [];
     sueldo = "10000";
+    document.getElementById('btn-sueldo').innerHTML = "5,000 &#60 10,000";
 });
 
 sueldo2.addEventListener('click', ()=>{
     arregloUnicoSueldo = [];
     sueldo = "15000";
+    document.getElementById('btn-sueldo').innerHTML = "10,001 &#60 15,000";
 });
 
 sueldo3.addEventListener('click', ()=>{
     arregloUnicoSueldo = [];
     sueldo = "20000";
+    document.getElementById('btn-sueldo').innerHTML = "15,001 &#60 20,000";
 });
 
 sueldo4.addEventListener('click', ()=>{
     arregloUnicoSueldo = [];
     sueldo = "20001";
+    document.getElementById('btn-sueldo').innerHTML = "20,001 &#60 más";
 });
 
 ft.addEventListener('click', ()=>{
     arregloUnicoEmpleo = [];
     tipoEmpleo = "FULL_TIME";
+    document.getElementById('btn-te').innerHTML = "FULL_TIME";
 });
 
 pt.addEventListener('click', ()=>{
     arregloUnicoEmpleo = [];
     tipoEmpleo = "PART_TIME";
+    document.getElementById('btn-te').innerHTML = "PART_TIME";
 });
 
 ag.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Aguascalientes";
+    document.getElementById('btn-estado').innerHTML = "Aguascalientes";
     
 });
 ja.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Jalisco";
+    document.getElementById('btn-estado').innerHTML = "Jalisco";
 });
 ta.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Tamaulipas";
+    document.getElementById('btn-estado').innerHTML = "Tamaulipas";
 });
 nl.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Nuevo Leon";
+    document.getElementById('btn-estado').innerHTML = "Nuevo Leon";
 });
 cdmx.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "CDMX";
+    document.getElementById('btn-estado').innerHTML = "CDMX";
 });
 ve.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Veracruz";
+    document.getElementById('btn-estado').innerHTML = "Veracruz";
 });
 so.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Sonora";
+    document.getElementById('btn-estado').innerHTML = "Sonora";
 });
 mex.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "México";
+    document.getElementById('btn-estado').innerHTML = "México";
 });
 nln.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Nuevo León";
+    document.getElementById('btn-estado').innerHTML = "Nuevo León";
 });
 hi.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Hidalgo";
+    document.getElementById('btn-estado').innerHTML = "Hidalgo";
 });
 mo.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Morelos";
+    document.getElementById('btn-estado').innerHTML = "Morelos";
 });
 sl.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "San Luis Potosi";
+    document.getElementById('btn-estado').innerHTML = "San Luis Potosi";
 });
 gu.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Guanajuato";
+    document.getElementById('btn-estado').innerHTML = "Guanajuato";
 });
 que.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Querétaro";
+    document.getElementById('btn-estado').innerHTML = "Querétaro";
 });
 pu.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Puebla";
+    document.getElementById('btn-estado').innerHTML = "Puebla";
 });
 na.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Nayarit";
+    document.getElementById('btn-estado').innerHTML = "Nayarit";
 });
 du.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Durango";
+    document.getElementById('btn-estado').innerHTML = "Durango";
 });
 qui.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Quintana Roo";
+    document.getElementById('btn-estado').innerHTML = "Quintana Roo";
 });
 chi.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Chiapas";
+    document.getElementById('btn-estado').innerHTML = "Chiapas";
 });
 col.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Colima";
+    document.getElementById('btn-estado').innerHTML = "Colima";
 });
 yu.addEventListener('click', ()=>{
     arregloUnicoEstado = [];
     estado = "Yucatán";
+    document.getElementById('btn-estado').innerHTML = "Yucatán";
 });
 
+const sueldoSF = document.getElementById('sueldoSF').addEventListener('click', ()=>{
+    document.getElementById('btn-sueldo').innerHTML = "Sueldo";
+    sueldo="";
+});
+const monedaSF = document.getElementById('monedaSF').addEventListener('click', ()=>{
+    document.getElementById('btn-moneda').innerHTML = "Moneda";
+    moneda="";
+});
+const empleoSF = document.getElementById('empleoSF').addEventListener('click', ()=>{
+    document.getElementById('btn-te').innerHTML = "Tipo Empleo";
+    tipoEmpleo="";
+});
+const estadoSF = document.getElementById('estadoSF').addEventListener('click', ()=>{
+    document.getElementById('btn-estado').innerHTML = "Ubicación Estado";
+    estado="";
+});
 
 
 btnSiguiente.addEventListener('click', ()=> {
@@ -197,17 +256,228 @@ btnAnterior.addEventListener('click', ()=> {
     window.scroll(0, 0);
 });
 
-filtrado.addEventListener('click', ()=> {
-    console.log("Ejecutado")
-    id = document.getElementById("id").value;
-    puesto =document.getElementById("puesto").value;
-    busquedaFiltros();
-    filtro();
-})
+const filtrado = async() => {
+    try{
+        const respuesta = await fetch(url);
 
-const busquedaFiltros = () =>{
+        if(respuesta.status === 200){
+            const datos = await respuesta.json();
 
-};
+            let y=paginaF*10;
+            let x=0;
+            if(arregloUnicoId == [] && flag==0){
+                let cardFilter = '';
+                document.getElementById('filter').classList = "d-flex";
+                cardFilter += `
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    </div>
+                `;
+
+                document.getElementById('cards-filter').innerHTML = cardFilter;
+                main.classList = "d-none";
+                footer.classList = "d-none";
+            }else if(arregloUnicoId != []){
+                let cardFilter = '';
+                arregloUnicoId.forEach(ID => {
+                    datos.data.forEach(trabajos => {
+                        if(arregloUnicoId[y] == datos.data[x].Id){
+                            console.log("Index: " + x + " ID: " + datos.data[x].Id + " y: " + y)
+                            document.getElementById('filter').classList = "d-flex";
+                            cardFilter += `
+                                <div class="col-12 card mb-5 d-f flex-wrap shadow">
+                                <div class="card-header bg-dark text-white">
+                                    <h2 class="display-6 text-uppercase text-center">${datos.data[x].Titulo} - <strong class="display-6">${datos.data[x].Empresa}</strong></h2>
+                                    <p class="lead text-center mb-2">${datos.data[x].CatName}</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-lg-12 d-lg-flex d-block justify-content-between">
+                                        <p class="lead d-lg-inline d-block">Id: <strong>${datos.data[x].Id}</strong></p>
+                                        <p class="lead d-lg-inline d-block">Puesto: <strong>${datos.data[x].Puesto}</strong></p>
+                                        <p class="lead d-lg-inline d-block">Sueldo: <strong>${datos.data[x].Sueldo}</strong></p>
+                                        <p class="lead d-lg-inline d-block">Moneda: <strong>${datos.data[x].Moneda}</strong></p>
+                                    </div>
+                                    <div class="col-lg-12 d-lg-flex d-block justify-content-between">
+                                        <p class="lead d-lg-inline d-block">Tipo de Empleo: <strong>${datos.data[x].TipoEmpleo}</strong></p>
+                                        <p class="lead d-lg-inline d-block">Sueldo Tipo: <strong>${datos.data[x].SueldoTipo}</strong></p>
+                                        <p class="lead d-lg-inline d-block">Estado: <strong>${datos.data[x].UbicacionEstado}</strong></p>
+                                        <p class="lead d-lg-inline d-block">Ciudad: <strong>${datos.data[x].UbicacionCiudad}</strong></p>
+                                    </div>
+                                    <hr>
+                                    <p class="lead d-lg-inline d-block text-justify">Descripción: <strong>${datos.data[x].Descri}</strong></p>
+                                </div>
+                            </div>
+                            `;
+
+                            document.getElementById('cards-filter').innerHTML = cardFilter;
+                            main.classList = "d-none";
+                            footer.classList = "d-none";
+
+                            x=0;
+                            y++;
+                        }else{
+                            x++;
+                        }
+                    });
+                })
+            }
+            if(flag==1){  //ESTE ES POR SI LOS FILTROS SE QUITAN Y LE PICAN ACTUALIZAR
+                main.classList = "d-flex";
+                footer.classList = "d-flex";
+                document.getElementById('filter').classList = "d-none";
+                flag=0;
+            }
+        } else if(respuesta.status === 404){
+            console.log("No se ha encontrado los datos solicitados.")
+        }
+    } catch(error){
+        console.log("Ha surgido el siguiente error: " + error)
+    }
+}
+
+const filtroId = async() => {
+    try{
+        const respuesta = await fetch(url);
+
+        if(respuesta.status === 200){
+            const datos = await respuesta.json();
+
+            let x=0;
+            if(id == ""){
+                arregloUnicoId = arregloUnicoPuesto;
+            }else if(id!="" && arregloUnicoPuesto != []){
+                datos.data.forEach(trabajos => {
+                    if(id == datos.data[x].Id && arregloUnicoId.includes(datos.data[x].Id) == false && arregloUnicoPuesto.includes(datos.data[x].Id) == true){
+                        arregloUnicoId.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }else if(id!="" && arregloUnicoPuesto == []){
+                datos.data.forEach(trabajos => {
+                    if(id == datos.data[x].Id && arregloUnicoId.includes(datos.data[x].Id) == false){
+                        arregloUnicoId.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }
+            if(arregloUnicoId.length == 0){
+                let cardFilter = '';
+                document.getElementById('filter').classList = "d-flex";
+                cardFilter += `
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    </div>
+                `;
+
+                document.getElementById('cards-filter').innerHTML = cardFilter;
+                main.classList = "d-none";
+                footer.classList = "d-none";
+            }
+            filtrado();
+
+        } else if(respuesta.status === 404){
+            console.log("No se ha encontrado los datos solicitados.")
+        }
+    } catch(error){
+        console.log("Ha surgido el siguiente error: " + error)
+    }
+}
+
+const filtroPuesto = async() => {
+    try{
+        const respuesta = await fetch(url);
+
+        if(respuesta.status === 200){
+            const datos = await respuesta.json();
+
+            let x=0;
+            if(puesto == ""){
+                arregloUnicoPuesto = arregloUnicoSueldo;
+            }else if(puesto!="" && arregloUnicoSueldo != []){
+                datos.data.forEach(trabajos => {
+                    if(puesto == datos.data[x].Puesto && arregloUnicoPuesto.includes(datos.data[x].Id) == false && arregloUnicoSueldo.includes(datos.data[x].Id) == true){
+                        arregloUnicoPuesto.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }else if(puesto!="" && arregloUnicoSueldo == []){
+                datos.data.forEach(trabajos => {
+                    if(puesto == datos.data[x].Puesto && arregloUnicoPuesto.includes(datos.data[x].Id) == false){
+                        arregloUnicoPuesto.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }
+            if(arregloUnicoPuesto.length == 0){
+                let cardFilter = '';
+                document.getElementById('filter').classList = "d-flex";
+                cardFilter += `
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    </div>
+                `;
+
+                document.getElementById('cards-filter').innerHTML = cardFilter;
+                main.classList = "d-none";
+                footer.classList = "d-none";
+            }
+            filtroId();
+
+        } else if(respuesta.status === 404){
+            console.log("No se ha encontrado los datos solicitados.")
+        }
+    } catch(error){
+        console.log("Ha surgido el siguiente error: " + error)
+    }
+}
+
+const filtroSueldo = async() => {
+    try{
+        const respuesta = await fetch(url);
+
+        if(respuesta.status === 200){
+            const datos = await respuesta.json();
+
+            let x=0;
+            if(sueldo == ""){
+                arregloUnicoSueldo = arregloUnicoEmpleo;
+            }else if(sueldo!="" && arregloUnicoEmpleo != []){
+                datos.data.forEach(trabajos => {
+                    if(sueldo == datos.data[x].Sueldo && arregloUnicoSueldo.includes(datos.data[x].Id) == false && arregloUnicoEmpleo.includes(datos.data[x].Id) == true){
+                        arregloUnicoSueldo.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }else if(sueldo!="" && arregloUnicoEmpleo == []){
+                datos.data.forEach(trabajos => {
+                    if(sueldo == datos.data[x].Sueldo && arregloUnicoSueldo.includes(datos.data[x].Id) == false){
+                        arregloUnicoSueldo.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }
+            if(arregloUnicoSueldo.length == 0){
+                let cardFilter = '';
+                document.getElementById('filter').classList = "d-flex";
+                cardFilter += `
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    </div>
+                `;
+
+                document.getElementById('cards-filter').innerHTML = cardFilter;
+                main.classList = "d-none";
+                footer.classList = "d-none";
+            }
+            filtroPuesto();
+
+        } else if(respuesta.status === 404){
+            console.log("No se ha encontrado los datos solicitados.")
+        }
+    } catch(error){
+        console.log("Ha surgido el siguiente error: " + error)
+    }
+}
 
 const filtroTipoEmpleo = async() => {
     try{
@@ -216,31 +486,40 @@ const filtroTipoEmpleo = async() => {
         if(respuesta.status === 200){
             const datos = await respuesta.json();
 
+            console.log("ENTRÓ AL METODO DE EMPLEO")
+
             let x=0;
-            if(estado == ""){
+            if(tipoEmpleo == ""){
+                arregloUnicoEmpleo = arregloUnicoEstado;
+            }else if(tipoEmpleo!="" && arregloUnicoEstado != []){
                 datos.data.forEach(trabajos => {
-                    if(estado == datos.data[x].UbicacionEstado && arregloUnicoEstado.includes(datos.data[i].UbicacionEstado) == false){
-                        arregloUnicoEstado.push(datos.data[x].Id)
-                    }else{
+                    if(tipoEmpleo == datos.data[x].TipoEmpleo && arregloUnicoEmpleo.includes(datos.data[x].Id) == false && arregloUnicoEstado.includes(datos.data[x].Id) == true){
+                        arregloUnicoEmpleo.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }else if(tipoEmpleo!="" && arregloUnicoEstado == []){
+                datos.data.forEach(trabajos => {
+                    if(tipoEmpleo == datos.data[x].TipoEmpleo && arregloUnicoEmpleo.includes(datos.data[x].Id) == false){
+                        arregloUnicoEmpleo.push(datos.data[x].Id)
                     }
                     x++;
                 });
             }
-            if(arregloUnicoEstado.length == 0){
+            if(arregloUnicoEmpleo.length == 0){
                 let cardFilter = '';
                 document.getElementById('filter').classList = "d-flex";
                 cardFilter += `
-                    <div>
-                        <p class="display-5 text-red">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO EL TRABAJO</p>
                     </div>
                 `;
 
                 document.getElementById('cards-filter').innerHTML = cardFilter;
                 main.classList = "d-none";
                 footer.classList = "d-none";
-            }else{
-                filtroTipoEmpleo();
             }
+            filtroSueldo();
 
         } else if(respuesta.status === 404){
             console.log("No se ha encontrado los datos solicitados.")
@@ -258,100 +537,30 @@ const filtroUbicacionEstado = async() => {
             const datos = await respuesta.json();
 
             let x=0;
-            datos.data.forEach(trabajos => {
-                if(estado == datos.data[x].UbicacionEstado && arregloUnicoEstado.includes(datos.data[i].UbicacionEstado) == false){
-                    arregloUnicoEstado.push(datos.data[x].Id)
-                }else{
-                }
-                x++;
-            });
+            if(estado == ""){
+            }else if(estado != ""){
+                datos.data.forEach(trabajos => {
+                    if(estado == datos.data[x].UbicacionEstado && arregloUnicoEstado.includes(datos.data[x].Id) == false){
+                        arregloUnicoEstado.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
+            }
             if(arregloUnicoEstado.length == 0){
                 let cardFilter = '';
                 document.getElementById('filter').classList = "d-flex";
                 cardFilter += `
-                    <div>
-                        <p class="display-5 text-red">NO SE HA ENCONTRADO EL TRABAJO</p>
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO EL TRABAJO</p>
                     </div>
                 `;
 
                 document.getElementById('cards-filter').innerHTML = cardFilter;
                 main.classList = "d-none";
                 footer.classList = "d-none";
-            }else{
-                filtroTipoEmpleo();
             }
-
-        } else if(respuesta.status === 404){
-            console.log("No se ha encontrado los datos solicitados.")
-        }
-    } catch(error){
-        console.log("Ha surgido el siguiente error: " + error)
-    }
-}
-
-const filtroId = async() => {
-    try{
-        const respuesta = await fetch(url);
-
-        if(respuesta.status === 200){
-            const datos = await respuesta.json();
-
-            let x=0;
-            datos.data.forEach(trabajos => {
-                if(id==datos.data[x].Id && puestoB){
-
-                    
-                    let cardFilter = '';
-                    document.getElementById('filter').classList = "d-flex";
-                    cardFilter += `
-                        <div class="col-12 card mb-5 d-f flex-wrap shadow">
-                        <div class="card-header bg-dark text-white">
-                            <h2 class="display-6 text-uppercase text-center">${datos.data[x].Titulo} - <strong class="display-6">${datos.data[x].Empresa}</strong></h2>
-                            <p class="lead text-center mb-2">${datos.data[x].CatName}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                <p class="lead d-lg-inline d-block">Id: <strong>${datos.data[x].Id}</strong></p>
-                                <p class="lead d-lg-inline d-block">Puesto: <strong>${datos.data[x].Puesto}</strong></p>
-                                <p class="lead d-lg-inline d-block">Sueldo: <strong>${datos.data[x].Sueldo}</strong></p>
-                                <p class="lead d-lg-inline d-block">Moneda: <strong>${datos.data[x].Moneda}</strong></p>
-                            </div>
-                            <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                <p class="lead d-lg-inline d-block">Tipo de Empleo: <strong>${datos.data[x].TipoEmpleo}</strong></p>
-                                <p class="lead d-lg-inline d-block">Sueldo Tipo: <strong>${datos.data[x].SueldoTipo}</strong></p>
-                                <p class="lead d-lg-inline d-block">Estado: <strong>${datos.data[x].UbicacionEstado}</strong></p>
-                                <p class="lead d-lg-inline d-block">Ciudad: <strong>${datos.data[x].UbicacionCiudad}</strong></p>
-                            </div>
-                            <hr>
-                            <p class="lead d-lg-inline d-block text-justify">Descripción: <strong>${datos.data[x].Descri}</strong></p>
-                        </div>
-                    </div>
-                    `;
-
-                    document.getElementById('cards-filter').innerHTML = cardFilter;
-                    main.classList = "d-none";
-                    footer.classList = "d-none";
-                    return;
-                }else if(id == ""){
-                    main.classList = "d-flex";
-                    footer.classList = "d-flex";
-                    document.getElementById('filter').classList = "d-none";
-                }else{
-                    let cardFilter = '';
-                    document.getElementById('filter').classList = "d-flex";
-                    cardFilter += `
-                        <div>
-                            <p class="display-5 text-red">NO SE HA ENCONTRADO EL TRABAJO</p>
-                        </div>
-                    `;
-
-                    document.getElementById('cards-filter').innerHTML = cardFilter;
-                    main.classList = "d-none";
-                    footer.classList = "d-none";
-                }
-                x++;
-            });
-
+            console.log("SE TERMINó EL METODO DE ESTADO")
+            filtroTipoEmpleo();
         } else if(respuesta.status === 404){
             console.log("No se ha encontrado los datos solicitados.")
         }
@@ -361,76 +570,17 @@ const filtroId = async() => {
 }
 
 const filtro = async() => {
-    try{
-        const respuesta = await fetch(url);
-
-        if(respuesta.status === 200){
-            const datos = await respuesta.json();
-
-            let x=0;
-            datos.data.forEach(trabajos => {
-                if(id==datos.data[x].Id && puestoB){
-                    // console.log("Se encontró en el index: " + x);
-
-                    
-                    let cardFilter = '';
-                    document.getElementById('filter').classList = "d-flex";
-                    cardFilter += `
-                        <div class="col-12 card mb-5 d-f flex-wrap shadow">
-                        <div class="card-header bg-dark text-white">
-                            <h2 class="display-6 text-uppercase text-center">${datos.data[x].Titulo} - <strong class="display-6">${datos.data[x].Empresa}</strong></h2>
-                            <p class="lead text-center mb-2">${datos.data[x].CatName}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                <p class="lead d-lg-inline d-block">Id: <strong>${datos.data[x].Id}</strong></p>
-                                <p class="lead d-lg-inline d-block">Puesto: <strong>${datos.data[x].Puesto}</strong></p>
-                                <p class="lead d-lg-inline d-block">Sueldo: <strong>${datos.data[x].Sueldo}</strong></p>
-                                <p class="lead d-lg-inline d-block">Moneda: <strong>${datos.data[x].Moneda}</strong></p>
-                            </div>
-                            <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                <p class="lead d-lg-inline d-block">Tipo de Empleo: <strong>${datos.data[x].TipoEmpleo}</strong></p>
-                                <p class="lead d-lg-inline d-block">Sueldo Tipo: <strong>${datos.data[x].SueldoTipo}</strong></p>
-                                <p class="lead d-lg-inline d-block">Estado: <strong>${datos.data[x].UbicacionEstado}</strong></p>
-                                <p class="lead d-lg-inline d-block">Ciudad: <strong>${datos.data[x].UbicacionCiudad}</strong></p>
-                            </div>
-                            <hr>
-                            <p class="lead d-lg-inline d-block text-justify">Descripción: <strong>${datos.data[x].Descri}</strong></p>
-                        </div>
-                    </div>
-                    `;
-
-                    document.getElementById('cards-filter').innerHTML = cardFilter;
-                    main.classList = "d-none";
-                    footer.classList = "d-none";
-                    return;
-                }else if(id == ""){
-                    main.classList = "d-flex";
-                    footer.classList = "d-flex";
-                    document.getElementById('filter').classList = "d-none";
-                }else{
-                    let cardFilter = '';
-                    document.getElementById('filter').classList = "d-flex";
-                    cardFilter += `
-                        <div>
-                            <p class="display-5 text-red">NO SE HA ENCONTRADO EL TRABAJO</p>
-                        </div>
-                    `;
-
-                    document.getElementById('cards-filter').innerHTML = cardFilter;
-                    main.classList = "d-none";
-                    footer.classList = "d-none";
-                }
-                x++;
-            });
-
-        } else if(respuesta.status === 404){
-            console.log("No se ha encontrado los datos solicitados.")
-        }
-    } catch(error){
-        console.log("Ha surgido el siguiente error: " + error)
+    console.log("Ejecutado")
+    if(id=="" && puesto=="" && sueldo=="" && tipoEmpleo=="" && estado==""){
+        console.log("FLAGGGGG")
+        flag=1;
+        arregloUnicoEstado = [];
+        filtroUbicacionEstado();
+    }else{
+        id = document.getElementById("id").value;
+        puesto =document.getElementById("puesto").value;
+        filtroUbicacionEstado();
     }
-    filtroUbicacionEstado();
 }
 
 const cargarDatos = async() => {
