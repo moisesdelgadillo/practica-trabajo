@@ -251,7 +251,7 @@ const filtrado = async() => {
                             console.log("Index: " + x + " ID: " + datos.data[x].Id + " y: " + y)
                             document.getElementById('filter').classList = "d-flex";
                             cardFilter += `
-                                <div class="col-12 card mb-5 d-f flex-wrap shadow">
+                            <div class="col-12 card mb-5 d-f flex-wrap shadow">
                                 <div class="card-header bg-dark text-white">
                                     <h2 class="display-6 text-uppercase text-center">${datos.data[x].Titulo} - <strong class="display-6">${datos.data[x].Empresa}</strong></h2>
                                     <p class="lead text-center mb-2">${datos.data[x].CatName}</p>
@@ -559,28 +559,25 @@ const cargarDatos = async() => {
 
                 if(contador<=10){
                     trabajo += `
-                        <div class="col-12 card mb-5 d-f flex-wrap shadow">
+                    <div class="container d-flex justify-content-center" style="max-height: 500px;">
+                        <div class="col-12 col-md-8 col-lg-7 card mb-4 d-f flex-column flex-wrap-wrap shadow">
                             <div class="card-header bg-dark text-white">
-                                <h2 class="display-6 text-uppercase text-center">${datos.data[i].Titulo} - <strong class="display-6">${datos.data[i].Empresa}</strong></h2>
-                                <p class="lead text-center mb-2">${datos.data[i].CatName}</p>
+                                <h2 class="h4 h2-md text-uppercase text-center"><a href="#" class="text-decoration-lg-none text-white">${datos.data[i].Titulo} / ${datos.data[i].Puesto}</a></h2>
+                                <p class="text-center h5 mb-2"><i class="bi bi-building"></i> ${datos.data[i].Empresa}</p>
                             </div>
                             <div class="card-body">
-                                <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                    <p class="lead d-lg-inline d-block">Id: <strong>${datos.data[i].Id}</strong></p>
-                                    <p class="lead d-lg-inline d-block">Puesto: <strong>${datos.data[i].Puesto}</strong></p>
-                                    <p class="lead d-lg-inline d-block">Sueldo: <strong>${datos.data[i].Sueldo}</strong></p>
-                                    <p class="lead d-lg-inline d-block">Moneda: <strong>${datos.data[i].Moneda}</strong></p>
-                                </div>
-                                <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                    <p class="lead d-lg-inline d-block">Tipo de Empleo: <strong>${datos.data[i].TipoEmpleo}</strong></p>
-                                    <p class="lead d-lg-inline d-block">Sueldo Tipo: <strong>${datos.data[i].SueldoTipo}</strong></p>
-                                    <p class="lead d-lg-inline d-block">Estado: <strong>${datos.data[i].UbicacionEstado}</strong></p>
-                                    <p class="lead d-lg-inline d-block">Ciudad: <strong>${datos.data[i].UbicacionCiudad}</strong></p>
+                                <div class="col-lg-12 d-lg-flex d-flex flex-column justify-content-between">
+                                    <p class="lead d-block"><i class="bi bi-geo-alt"></i> ${datos.data[i].UbicacionCiudad}, ${datos.data[i].UbicacionEstado}.</p>
+                                    <p class="h5 d-block text-success"><i class="bi bi-cash"></i> <strong class="px-2">${datos.data[i].Sueldo}${datos.data[i].Moneda}</strong></p>
+                                    <p class="lead d-block"><i class="bi bi-briefcase-fill"></i> <strong>${datos.data[i].TipoEmpleo}</strong></p>
                                 </div>
                                 <hr>
-                                <p class="lead d-lg-inline d-block text-justify">Descripción: <strong>${datos.data[i].Descri}</strong></p>
+                                <div class="container text-truncate">
+                                    <p class="lead d-lg-inline d-block text-justify text-truncate">${datos.data[i].Descri}</p>
+                                </div>
                             </div>
                         </div>
+                    </div>
                     `;
     
                     contador++;
