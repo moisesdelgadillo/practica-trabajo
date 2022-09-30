@@ -1,11 +1,9 @@
 const url = "datos.json";
 let pagina = 0;
-let paginaF = 0;
 let i;
-let iF;
 let contador = 1;
-let contadorF = 1;
 let flag = 0;
+// searchFilters('#puesto', datos.data[x].Puesto);
 const btnSiguiente = document.getElementById('btnSiguiente');
 const btnAnterior = document.getElementById('btnAnterior');
 const main = document.getElementById('main');
@@ -13,7 +11,6 @@ const footer = document.getElementById('footer');
 const cardsFilter = document.getElementById('cards-filter');
 const getFiltro = document.getElementById('filtro');
 
-let id = "";
 let puesto = "";
 let sueldo = "";
 let tipoEmpleo = "";
@@ -46,7 +43,6 @@ const chi = document.getElementById('chi');
 const col = document.getElementById('col');
 const yu = document.getElementById('yu');
 
-let arregloUnicoId = [];
 let arregloUnicoPuesto = [];
 let arregloUnicoSueldo = [];
 let arregloUnicoMoneda = [];
@@ -227,32 +223,29 @@ const filtrado = async() => {
         const respuesta = await fetch(url);
 
         if(respuesta.status === 200){
-            console.log("ENTRO AL METODO IMPRIMIR")
             const datos = await respuesta.json();
 
-            let y=paginaF*10;
+            let y=0;
             let x=0;
-            if(arregloUnicoPuesto.lenght == 0 && flag==0){
+            if(arregloUnicoPuesto.length == 0 && flag==0){
                 let cardFilter = '';
+                console.log("prueba")
                 document.getElementById('filter').classList = "d-flex";
+                document.getElementById('btn-sinFiltros').classList = "container d-flex flex-column justify-content-center";
                 cardFilter += `
                     <div class="d-flex justify-content-center">
                         <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
-                    </div>
-                    <div class="container d-flex justify-content-center my-3">
-                        <a href="index.html" class="btn btn-outline-dark">Volver</a>
                     </div>
                 `;
 
                 document.getElementById('cards-filter').innerHTML = cardFilter;
                 main.classList = "d-none";
                 footer.classList = "d-none";
-            }else if(arregloUnicoPuesto.lenght != 0){
+            }else if(arregloUnicoPuesto.length != 0){
                 let cardFilter = '';
-                document.getElementById('btn-sinFiltros').classList = "container d-flex"
-                document.getElementById('nav').classList = "d-none"
+                document.getElementById('btn-sinFiltros').classList = "container d-flex flex-column justify-content-center";
+                document.getElementById('nav').classList = "d-none";
                 arregloUnicoPuesto.forEach(ID => {
-                    console.log("ENTRO A METODO FILTRADO CUANDO EL ARRAY PUESTO NO ESTA VACIO")
                     datos.data.forEach(trabajos => {
                         if(arregloUnicoPuesto[y] == datos.data[x].Id){
                             console.log("Index: " + x + " ID: " + datos.data[x].Id + " y: " + y)
@@ -283,6 +276,7 @@ const filtrado = async() => {
                             `;
 
                             document.getElementById('cards-filter').innerHTML = cardFilter;
+                            document.getElementById('text-sinFiltros').innerHTML = "Resultados: " + (y+1);
                             main.classList = "d-none";
                             footer.classList = "d-none";
 
@@ -306,7 +300,7 @@ const filtrado = async() => {
     } catch(error){
         console.log("Ha surgido el siguiente error: " + error)
     }
-    console.log("SALIO DEL METODO IMPRIMIR")
+    console.log("Se ejecuto todo")
 }
 
 const filtroPuesto = async() => {
@@ -314,33 +308,47 @@ const filtroPuesto = async() => {
         const respuesta = await fetch(url);
 
         if(respuesta.status === 200){
-            console.log("ENTRO AL METODO PUESTO")
             const datos = await respuesta.json();
+
+            /*const d = document;
+
+            function searchFilters(input, selector){
+                d.addEventListener('keyup', (e) => {
+                    if(e.target.matches(input)) {
+                        if(e.key==="Escape") e.target.value = "";
+
+                        d.querySelector(selector).forEach((el) =>
+                            el.textContent.toLowerCase().includes(e.target.value)
+                                ? el.classList.remove("filter")
+                                : el.classList.add("filter")
+                        );
+                    }
+                })
+            }*/
 
             let x=0;
             if(puesto == ""){
-                console.log("ENTRO A PUESTO VACIO")
                 arregloUnicoPuesto = arregloUnicoSueldo;
-            }else if(puesto!="" && arregloUnicoSueldo.lenght != 0){
-                console.log("ENTRO A PUESTO NO VACIO Y ARRAY ANTERIOR NO VACIO")
+            }else if(puesto!="" && arregloUnicoSueldo.length != 0){
                 datos.data.forEach(trabajos => {
-                    if(puesto == datos.data[x].Puesto && arregloUnicoPuesto.includes(datos.data[x].Id) == false ){
+                    if(puesto.toLowerCase() == datos.data[x].Puesto.toLowerCase() && arregloUnicoPuesto.includes(datos.data[x].Id) == false && arregloUnicoSueldo.includes(datos.data[x].Id) == true){
                         arregloUnicoPuesto.push(datos.data[x].Id)
                     }
                     x++;
                 });
-            }else if(puesto!="" && arregloUnicoSueldo.lenght == 0){
-                console.log("ENTRO A PUESTO NO VACIO Y A ARREGLO ANTERIOR VACIO")
+            }else if(puesto!="" && arregloUnicoSueldo.length == 0){
                 datos.data.forEach(trabajos => {
-                    if(puesto == datos.data[x].Puesto && arregloUnicoPuesto.includes(datos.data[x].Id) == false){
+                    if(puesto.toLowerCase() == datos.data[x].Puesto.toLowerCase() && arregloUnicoPuesto.includes(datos.data[x].Id) == false){
                         arregloUnicoPuesto.push(datos.data[x].Id)
                     }
                     x++;
                 });
             }
             if(arregloUnicoPuesto.length == 0){
-                let cardFilter = '';
+                document.getElementById('nav').classList = "d-none";
                 document.getElementById('filter').classList = "d-flex";
+                document.getElementById('btn-sinFiltros').classList = "container d-none flex-column justify-content-center";
+                let cardFilter = '';
                 cardFilter += `
                     <div class="d-flex justify-content-center">
                         <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
@@ -354,10 +362,9 @@ const filtroPuesto = async() => {
                 main.classList = "d-none";
                 footer.classList = "d-none";
             }
-            console.log("SALIO DEL METODO PUESTO")
             filtrado();
 
-        } else if(respuesta.status === 404){
+        } if(respuesta.status === 404){
             console.log("No se ha encontrado los datos solicitados.")
         }
     } catch(error){
@@ -370,100 +377,50 @@ const filtroSueldo = async() => {
         const respuesta = await fetch(url);
 
         if(respuesta.status === 200){
-            console.log("ENTRO AL METODO ID")
             const datos = await respuesta.json();
 
             let x=0;
             if(sueldo == ""){
-                console.log("ENTRO A sueldo VACIO")
                 arregloUnicoSueldo = arregloUnicoEmpleo;
-            }else if(sueldo!="" && arregloUnicoEmpleo.lenght != 0){
-                console.log("ENTRO A sueldo NO VACIO Y A ARREGLO ANTERIOR NO VACIO")
+            }else if(sueldo!=""){
                 datos.data.forEach(trabajos => {
+                    if(parseInt(sueldo) >= parseInt(datos.data[x].Sueldo)){
+                        console.log(datos.data[x].Sueldo)
+                    }else{
+                        console.log("No cuimple")
+                    }
                     if(parseInt(sueldo) >= parseInt(datos.data[x].Sueldo) && arregloUnicoSueldo.includes(datos.data[x].Id) == false){
-                        if(arregloUnicoEmpleo.includes(datos.data[x].Id) == true){
-                            arregloUnicoSueldo.push(datos.data[x].Id)
+                        if(arregloUnicoEmpleo.length == 0){
+                            console.log("CUANDO EL ARREGLO ANTERIOR ESTA VACIO")
+                            arregloUnicoSueldo.push(datos.data[x].Id);
+                        }else if(arregloUnicoEmpleo.length != 0){
+                            console.log("CUANDO EL ARREGLO ANTERIOR NO ESTA VACIO")
+                            if(arregloUnicoEmpleo.includes(datos.data[x].Id) == true){
+                                console.log("CUANDO EL ARREGLO ANTERIOR COINCIDE CON EL QUE SE VA INGRESAR")
+                                arregloUnicoSueldo.push(datos.data[x].Id);
+                            }
                         }
                     }
                     x++;
                 });
             }
-            if(arregloUnicoId.length == 0){
-                let cardFilter = '';
-                document.getElementById('filter').classList = "d-flex";
-                cardFilter += `
-                    <div class="d-flex justify-content-center">
-                        <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
-                    </div>
-                    <div class="container d-flex justify-content-center my-3">
-                        <a href="index.html" class="btn btn-outline-dark">Volver</a>
-                    </div>
-                `;
+            // if(arregloUnicoSueldo.length == 0){
+            //     let cardFilter = '';
+            //     console.log("se ejecuto el de abajo")
+            //     document.getElementById('filter').classList = "d-flex";
+            //     cardFilter += `
+            //         <div class="d-flex justify-content-center">
+            //             <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
+            //         </div>
+            //         <div class="container d-flex justify-content-center my-3">
+            //             <a href="index.html" class="btn btn-outline-dark">Volver</a>
+            //         </div>
+            //     `;
 
-                document.getElementById('cards-filter').innerHTML = cardFilter;
-                main.classList = "d-none";
-                footer.classList = "d-none";
-            }
-            console.log("SALIO DEL METODO sueldo")
-            filtroPuesto();
-
-        } else if(respuesta.status === 404){
-            console.log("No se ha encontrado los datos solicitados.")
-        }
-    } catch(error){
-        console.log("Ha surgido el siguiente error: " + error)
-    }
-}
-
-const filtroSueldoo = async() => {  //ID VIEJO
-
-    try{
-        const respuesta = await fetch(url);
-
-        if(respuesta.status === 200){
-            console.log("ENTRO AL METODO SUELDO")
-            const datos = await respuesta.json();
-
-            let x=0;
-            if(sueldo == ""){
-                console.log("ENTRO A METODO SUELDO VACIO")
-                arregloUnicoSueldo = arregloUnicoEmpleo;
-            }else if (sueldo<=10000){
-
-            }else if(sueldo!="" && arregloUnicoEmpleo.lenght != 0){
-                console.log("ENTRO A METODO SUELDO NO VACIO Y ARRAY ANTERIOR NO VACIO")
-                datos.data.forEach(trabajos => {
-                    if(sueldo == datos.data[x].Sueldo && arregloUnicoSueldo.includes(datos.data[x].Id) == false ){
-                        arregloUnicoSueldo.push(datos.data[x].Id)
-                    }
-                    x++;
-                });
-            }else if(sueldo!="" && arregloUnicoEmpleo.lenght == 0){
-                console.log("ENTRO A METODO SUELDO NO VACIO Y ARRAY VACIO")
-                datos.data.forEach(trabajos => {
-                    if(sueldo == datos.data[x].Sueldo && arregloUnicoSueldo.includes(datos.data[x].Id) == false){
-                        arregloUnicoSueldo.push(datos.data[x].Id)
-                    }
-                    x++;
-                });
-            }
-            if(arregloUnicoSueldo.length == 0){
-                let cardFilter = '';
-                document.getElementById('filter').classList = "d-flex";
-                cardFilter += `
-                    <div class="d-flex justify-content-center">
-                        <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
-                    </div>
-                    <div class="container d-flex justify-content-center my-3">
-                        <a href="index.html" class="btn btn-outline-dark">Volver</a>
-                    </div>
-                `;
-
-                document.getElementById('cards-filter').innerHTML = cardFilter;
-                main.classList = "d-none";
-                footer.classList = "d-none";
-            }
-            console.log("SALIO DEL METODO SUELDO")
+            //     document.getElementById('cards-filter').innerHTML = cardFilter;
+            //     main.classList = "d-none";
+            //     footer.classList = "d-none";
+            // }
             filtroPuesto();
 
         } else if(respuesta.status === 404){
@@ -481,24 +438,32 @@ const filtroTipoEmpleo = async() => {
         if(respuesta.status === 200){
             const datos = await respuesta.json();
 
-            console.log("ENTRÓ AL METODO DE EMPLEO")
-
             let x=0;
             if(tipoEmpleo == ""){
-                console.log("ENTRO A METODO EMPLEO VACIO")
                 arregloUnicoEmpleo = arregloUnicoEstado;
-            }else if(tipoEmpleo!="" && arregloUnicoEstado.lenght != 0){
-                console.log("ENTRO A METODO EMPLEO NO VACIO Y ARRAY NO VACIO")
+            }else if(tipoEmpleo!="" && arregloUnicoEstado.length == 0){
+                console.log("ENTRO AL METODO NO VACIO Y ARRAY VACIO")
                 datos.data.forEach(trabajos => {
                     if(tipoEmpleo == datos.data[x].TipoEmpleo && arregloUnicoEmpleo.includes(datos.data[x].Id) == false){
                         arregloUnicoEmpleo.push(datos.data[x].Id)
                     }
                     x++;
                 });
+            }else if(tipoEmpleo!="" && arregloUnicoEstado.length != 0){
+                console.log("ENTRO AL METODO NO VACIO Y ARREGLO NO VACIO")
+                datos.data.forEach(trabajos => {
+                    if(tipoEmpleo == datos.data[x].TipoEmpleo && arregloUnicoEmpleo.includes(datos.data[x].Id) == false && arregloUnicoEstado.includes(datos.data[x].Id)==true){
+                        console.log("COINCIDE CON EL ARREGLO ANTERIOR")
+                        arregloUnicoEmpleo.push(datos.data[x].Id)
+                    }
+                    x++;
+                });
             }
-            if(arregloUnicoEmpleo.length == 0){
-                let cardFilter = '';
+            if(arregloUnicoEmpleo.length != 0){
+                document.getElementById('nav').classList = "d-none";
                 document.getElementById('filter').classList = "d-flex";
+                document.getElementById('btn-sinFiltros').classList = "container d-none flex-column justify-content-center";
+                let cardFilter = '';
                 cardFilter += `
                     <div class="d-flex justify-content-center">
                         <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
@@ -512,7 +477,6 @@ const filtroTipoEmpleo = async() => {
                 main.classList = "d-none";
                 footer.classList = "d-none";
             }
-            console.log("SALIO DEL METODO EMPLEO")
             filtroSueldo();
 
         } else if(respuesta.status === 404){
@@ -577,10 +541,7 @@ const filtro = async() => {
         console.log("FLAGGGGG")
         flag=1;
         arregloUnicoEstado = [];
-        filtroUbicacionEstado();
     }else{
-        puesto =document.getElementById("puesto").value;
-        sueldo = document.getElementById("sueldo").value;
         filtroUbicacionEstado();
     }
 }
