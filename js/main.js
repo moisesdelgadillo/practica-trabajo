@@ -728,17 +728,17 @@ const cardModal = async() => {
                 if(iCard == datos.data[i2].Id){
                     modalPrint += `
                         <div class="col-12 p-0 m-0">
-                            <h2 class="text-center text-uppercase bg-dark display-5 display-md-4 p-4 p-md-5 text-white">
+                            <h2 class="col-12 text-center text-uppercase bg-dark display-5 display-md-4 p-4 p-md-5 text-white">
                                 <strong>${datos.data[i2].Titulo} / ${datos.data[i2].Puesto}</strong>
                             </h2>
                             <div class="d-flex justify-content-center">
-                            <div class="col-10 my-3 d-flex flex-column flex-md-row flex-wrap-wrap align-items-center">
-                                <div class="col-12 col-md-3 card shadow-sm">
+                            <div class="col-10 my-3 d-flex flex-column flex-wrap-wrap align-items-center">
+                                <div class="col-12 card shadow-sm">
                                     <div class="card-body d-flex justify-content-center align-items-center">
                                         <p>anuncio</p>
                                     </div>
                                  </div>
-                                <div class="col-12 col-sm-10 col-md-6 my-4 my-md-0 d-flex flex-column mx-3">
+                                <div class="col-12 col-sm-10 my-4 d-flex flex-column mx-3">
                                     <div class="col-12 card shadow mb-2">
                                         <div class="card-body py-3 px-4">
                                             <p class="text-center h5 mb-2"><i class="bi bi-building"></i> ${datos.data[i2].Empresa}</p>
@@ -757,7 +757,7 @@ const cardModal = async() => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-3 card shadow-sm">
+                                <div class="col-12 card shadow-sm">
                                     <div class="card-body d-flex justify-content-center align-items-center">
                                         <p>anuncio</p>
                                     </div>
