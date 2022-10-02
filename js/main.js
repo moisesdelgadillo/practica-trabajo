@@ -1,15 +1,22 @@
 const url = "datos.json";
 let pagina = 0;
+let pagMax = 10;
 let i;
+let iCard = 0;
+let i2 = 0;
 let contador = 1;
 let flag = 0;
-// searchFilters('#puesto', datos.data[x].Puesto);
-const btnSiguiente = document.getElementById('btnSiguiente');
-const btnAnterior = document.getElementById('btnAnterior');
+let flag2 = 0;
 const main = document.getElementById('main');
 const footer = document.getElementById('footer');
 const cardsFilter = document.getElementById('cards-filter');
 const getFiltro = document.getElementById('filtro');
+let btnModal = document.getElementById('main');
+
+// btnModal.addEventListener('click', ()=>{
+//     console.log("FUE EL INDEX: " + i)
+//     console.log(document.getElementById('card-id').innerHTML)
+// })
 
 let puesto = "";
 let sueldo = "";
@@ -190,7 +197,7 @@ const estadoSF = document.getElementById('estadoSF').addEventListener('click', (
 });
 
 
-btnSiguiente.addEventListener('click', ()=> {
+document.getElementById('btnSiguiente').addEventListener('click', ()=> {
     if(pagina>=9){
         pagina=-1;
         contador=1;
@@ -204,7 +211,7 @@ btnSiguiente.addEventListener('click', ()=> {
     window.scroll(0, 0);
 });
 
-btnAnterior.addEventListener('click', ()=> {
+document.getElementById('btnAnterior').addEventListener('click', ()=> {
     if(pagina<=0){
         pagina=10;
         contador=1;
@@ -218,14 +225,51 @@ btnAnterior.addEventListener('click', ()=> {
     window.scroll(0, 0);
 });
 
+document.getElementById('btnSiguienteF').addEventListener('click', ()=> {
+    if(pagina>=pagMax-1){
+        pagina=-1;
+        contador=1;
+    }
+    if(pagina<pagMax){
+        pagina+=1;
+        contador = 1;
+        document.getElementById("pagina-labelF").innerHTML = "Página(" + (pagina + 1) + ")";
+        filtrado();
+    }
+    window.scroll(0, 0);
+});
+
+document.getElementById('btnAnteriorF').addEventListener('click', ()=> {
+    if(pagina<=0){
+        pagina=pagMax;
+        contador=1;
+    }
+    if(pagina>0){
+        pagina-=1;
+        contador = 1;
+        document.getElementById("pagina-labelF").innerHTML = "Página(" + (pagina + 1) + ")";
+        filtrado();
+    }
+    window.scroll(0, 0);
+});
+
 const filtrado = async() => {
     try{
         const respuesta = await fetch(url);
 
         if(respuesta.status === 200){
             const datos = await respuesta.json();
+            if(flag2==0){
+                document.getElementById('main').remove();
+                flag2=1;
+            }
+            if(arregloUnicoPuesto.length>10){
+                document.getElementById('btnPaginaFiltro').classList.remove('d-none');
+                document.getElementById('btnPaginaFiltro').classList.add('d-flex');
+            }
+            pagMax = Math.ceil(arregloUnicoPuesto.length/10);
 
-            let y=0;
+            let y=pagina*10;
             let x=0;
             if(arregloUnicoPuesto.length == 0 && flag==0){
                 let cardFilter = '';
@@ -233,62 +277,70 @@ const filtrado = async() => {
                 document.getElementById('filter').classList = "d-flex";
                 document.getElementById('btn-sinFiltros').classList = "container d-flex flex-column justify-content-center";
                 cardFilter += `
-                    <div class="d-flex justify-content-center">
-                        <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
-                    </div>
+                <div class="d-flex justify-content-center">
+                <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
+                </div>
                 `;
-
+                
                 document.getElementById('cards-filter').innerHTML = cardFilter;
                 main.classList = "d-none";
                 footer.classList = "d-none";
             }else if(arregloUnicoPuesto.length != 0){
+                let contador = 1;
                 let cardFilter = '';
+                document.getElementById('text-sinFiltros').innerHTML = "Resultados: " + (arregloUnicoPuesto.length);
+                main.classList = "d-none";
+                footer.classList = "d-flex";
                 document.getElementById('btn-sinFiltros').classList = "container d-flex flex-column justify-content-center";
                 document.getElementById('nav').classList = "d-none";
+                document.getElementById('filter').classList = "d-flex";
+                
                 arregloUnicoPuesto.forEach(ID => {
-                    datos.data.forEach(trabajos => {
-                        if(arregloUnicoPuesto[y] == datos.data[x].Id){
-                            console.log("Index: " + x + " ID: " + datos.data[x].Id + " y: " + y)
-                            document.getElementById('filter').classList = "d-flex";
-                            cardFilter += `
-                            <div class="col-12 card mb-5 d-f flex-wrap shadow">
-                                <div class="card-header bg-dark text-white">
-                                    <h2 class="display-6 text-uppercase text-center">${datos.data[x].Titulo} - <strong class="display-6">${datos.data[x].Empresa}</strong></h2>
-                                    <p class="lead text-center mb-2">${datos.data[x].CatName}</p>
-                                </div>
-                                <div class="card-body">
-                                    <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                        <p class="lead d-lg-inline d-block">Id: <strong>${datos.data[x].Id}</strong></p>
-                                        <p class="lead d-lg-inline d-block">Puesto: <strong>${datos.data[x].Puesto}</strong></p>
-                                        <p class="lead d-lg-inline d-block">Sueldo: <strong>${datos.data[x].Sueldo}</strong></p>
-                                        <p class="lead d-lg-inline d-block">Moneda: <strong>${datos.data[x].Moneda}</strong></p>
+                        datos.data.forEach(trabajos => {
+                            if(contador<=10){
+                                if(arregloUnicoPuesto[y] == datos.data[x].Id){
+                                    console.log("Index: " + x + " ID: " + datos.data[x].Id + " y: " + y)
+                                    console.log("CONTADOOOOOOR: " + contador)
+                                    cardFilter += `
+                                    <div class="container d-flex justify-content-center">
+                                        <div class="col-11 col-md-8 col-lg-7 card mb-4 d-f flex-column flex-wrap-wrap shadow">
+                                            <div class="card-header bg-dark text-white">
+                                            <div class="h4 h2-md text-center">
+                                                <button onclick="modal${contador-1}();" id="btn-modal" class="bg-dark text-uppercase text-decoration-lg-none text-white" style="border: none;"><u>${datos.data[x].Titulo} / ${datos.data[x].Puesto}</u></button>
+                                                <p class="d-none" id="card-id-${contador-1}">${datos.data[x].Id}</p>
+                                            </div>
+                                                <p class="text-center h5 mb-2"><i class="bi bi-building"></i> ${datos.data[x].Empresa}</p>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="col-lg-12 d-lg-flex d-flex flex-column justify-content-between">
+                                                    <p class="lead d-block"><i class="bi bi-geo-alt"></i> ${datos.data[x].UbicacionCiudad}, ${datos.data[x].UbicacionEstado}.</p>
+                                                    <p class="h5 d-block text-success"><i class="bi bi-cash"></i> <strong class="px-2">${datos.data[x].Sueldo}${datos.data[x].Moneda}</strong></p>
+                                                    <p class="lead d-block"><i class="bi bi-briefcase-fill"></i> <strong>${datos.data[x].TipoEmpleo}</strong></p>
+                                                </div>
+                                                <hr>
+                                                <div class="container">
+                                                    <p class="lead d-lg-inline d-block text-justify">${datos.data[x].Descri.substr(0, 250)}...</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-12 d-lg-flex d-block justify-content-between">
-                                        <p class="lead d-lg-inline d-block">Tipo de Empleo: <strong>${datos.data[x].TipoEmpleo}</strong></p>
-                                        <p class="lead d-lg-inline d-block">Sueldo Tipo: <strong>${datos.data[x].SueldoTipo}</strong></p>
-                                        <p class="lead d-lg-inline d-block">Estado: <strong>${datos.data[x].UbicacionEstado}</strong></p>
-                                        <p class="lead d-lg-inline d-block">Ciudad: <strong>${datos.data[x].UbicacionCiudad}</strong></p>
-                                    </div>
-                                    <hr>
-                                    <p class="lead d-lg-inline d-block text-justify">Descripción: <strong>${datos.data[x].Descri}</strong></p>
-                                </div>
-                            </div>
-                            `;
-
-                            document.getElementById('cards-filter').innerHTML = cardFilter;
-                            document.getElementById('text-sinFiltros').innerHTML = "Resultados: " + (y+1);
-                            main.classList = "d-none";
-                            footer.classList = "d-none";
-
-                            x=0;
-                            y++;
-                        }else{
-                            x++;
-                        }
-                    });
+                                    `;
+                                    
+                                    contador++;
+                                    document.getElementById('cards-filter').innerHTML = cardFilter;
+    
+                                    x=0;
+                                    i++;
+                                    y++;
+                                }else{
+                                    x++;
+                                }
+                            }
+                                
+                        });
                 })
             }
-            if(flag==1){  //ESTE ES POR SI LOS FILTROS SE QUITAN Y LE PICAN ACTUALIZAR
+            if(flag==1){
                 main.classList = "d-flex";
                 footer.classList = "d-flex";
                 document.getElementById('filter').classList = "d-none";
@@ -310,22 +362,6 @@ const filtroPuesto = async() => {
         if(respuesta.status === 200){
             const datos = await respuesta.json();
 
-            /*const d = document;
-
-            function searchFilters(input, selector){
-                d.addEventListener('keyup', (e) => {
-                    if(e.target.matches(input)) {
-                        if(e.key==="Escape") e.target.value = "";
-
-                        d.querySelector(selector).forEach((el) =>
-                            el.textContent.toLowerCase().includes(e.target.value)
-                                ? el.classList.remove("filter")
-                                : el.classList.add("filter")
-                        );
-                    }
-                })
-            }*/
-
             let x=0;
             if(puesto == ""){
                 arregloUnicoPuesto = arregloUnicoSueldo;
@@ -338,13 +374,14 @@ const filtroPuesto = async() => {
                 });
             }else if(puesto!="" && arregloUnicoSueldo.length == 0){
                 datos.data.forEach(trabajos => {
-                    if(puesto.toLowerCase() == datos.data[x].Puesto.toLowerCase() && arregloUnicoPuesto.includes(datos.data[x].Id) == false){
+                    if(datos.data[x].Puesto.toLowerCase().includes(puesto.toLowerCase()) && arregloUnicoPuesto.includes(datos.data[x].Id) == false){
                         arregloUnicoPuesto.push(datos.data[x].Id)
                     }
                     x++;
                 });
             }
             if(arregloUnicoPuesto.length == 0){
+                console.log("FOOTEEEEEEER")
                 document.getElementById('nav').classList = "d-none";
                 document.getElementById('filter').classList = "d-flex";
                 document.getElementById('btn-sinFiltros').classList = "container d-none flex-column justify-content-center";
@@ -384,12 +421,12 @@ const filtroSueldo = async() => {
                 arregloUnicoSueldo = arregloUnicoEmpleo;
             }else if(sueldo!=""){
                 datos.data.forEach(trabajos => {
-                    if(parseInt(sueldo) >= parseInt(datos.data[x].Sueldo)){
+                    if(parseInt(sueldo) <= parseInt(datos.data[x].Sueldo)){
                         console.log(datos.data[x].Sueldo)
                     }else{
-                        console.log("No cuimple")
+                        console.log("No cumple")
                     }
-                    if(parseInt(sueldo) >= parseInt(datos.data[x].Sueldo) && arregloUnicoSueldo.includes(datos.data[x].Id) == false){
+                    if(parseInt(sueldo) <= parseInt(datos.data[x].Sueldo) && arregloUnicoSueldo.includes(datos.data[x].Id) == false){
                         if(arregloUnicoEmpleo.length == 0){
                             console.log("CUANDO EL ARREGLO ANTERIOR ESTA VACIO")
                             arregloUnicoSueldo.push(datos.data[x].Id);
@@ -404,23 +441,23 @@ const filtroSueldo = async() => {
                     x++;
                 });
             }
-            // if(arregloUnicoSueldo.length == 0){
-            //     let cardFilter = '';
-            //     console.log("se ejecuto el de abajo")
-            //     document.getElementById('filter').classList = "d-flex";
-            //     cardFilter += `
-            //         <div class="d-flex justify-content-center">
-            //             <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
-            //         </div>
-            //         <div class="container d-flex justify-content-center my-3">
-            //             <a href="index.html" class="btn btn-outline-dark">Volver</a>
-            //         </div>
-            //     `;
+            if(arregloUnicoSueldo.length == 0){
+                let cardFilter = '';
+                console.log("se ejecuto el de abajo")
+                document.getElementById('filter').classList = "d-flex";
+                cardFilter += `
+                    <div class="d-flex justify-content-center">
+                        <p class="display-5">NO SE HA ENCONTRADO RESULTADOS</p>
+                    </div>
+                    <div class="container d-flex justify-content-center my-3">
+                        <a href="index.html" class="btn btn-outline-dark">Volver</a>
+                    </div>
+                `;
 
-            //     document.getElementById('cards-filter').innerHTML = cardFilter;
-            //     main.classList = "d-none";
-            //     footer.classList = "d-none";
-            // }
+                document.getElementById('cards-filter').innerHTML = cardFilter;
+                main.classList = "d-none";
+                footer.classList = "d-none";
+            }
             filtroPuesto();
 
         } else if(respuesta.status === 404){
@@ -459,7 +496,8 @@ const filtroTipoEmpleo = async() => {
                     x++;
                 });
             }
-            if(arregloUnicoEmpleo.length != 0){
+            if(arregloUnicoEmpleo.length == 0){
+                console.log("EMPLEOOOOOOOOO")
                 document.getElementById('nav').classList = "d-none";
                 document.getElementById('filter').classList = "d-flex";
                 document.getElementById('btn-sinFiltros').classList = "container d-none flex-column justify-content-center";
@@ -508,6 +546,7 @@ const filtroUbicacionEstado = async() => {
                 });
             }
             if(arregloUnicoEstado.length == 0){
+                console.log("ESTADOOOOOOOOOO")
                 let cardFilter = '';
                 document.getElementById('filter').classList = "d-flex";
                 cardFilter += `
@@ -536,9 +575,11 @@ const filtroUbicacionEstado = async() => {
 const filtro = async() => {
     puesto =document.getElementById("puesto").value;
     sueldo = document.getElementById("sueldo").value;
+    document.getElementById('btnPagina').classList.remove('d-flex');
+    document.getElementById('btnPagina').classList.add('d-none');
+    pagina=0;
     console.log("Ejecutado")
     if(puesto=="" && sueldo=="" && tipoEmpleo=="" && estado==""){
-        console.log("FLAGGGGG")
         flag=1;
         arregloUnicoEstado = [];
     }else{
@@ -555,14 +596,18 @@ const cargarDatos = async() => {
 
             i=pagina *10;
             let trabajo = '';
+            console.log(datos.data)
             datos.data.forEach(trabajos => {
 
                 if(contador<=10){
                     trabajo += `
-                    <div class="container d-flex justify-content-center" style="max-height: 500px;">
-                        <div class="col-12 col-md-8 col-lg-7 card mb-4 d-f flex-column flex-wrap-wrap shadow">
+                    <div class="container d-flex justify-content-center">
+                        <div class="col-11 col-md-8 col-lg-7 card mb-4 d-f flex-column flex-wrap-wrap shadow">
                             <div class="card-header bg-dark text-white">
-                                <h2 class="h4 h2-md text-uppercase text-center"><a href="#" class="text-decoration-lg-none text-white">${datos.data[i].Titulo} / ${datos.data[i].Puesto}</a></h2>
+                                <div class="h4 h2-md text-center">
+                                    <button onclick="modal${contador-1}();" id="btn-modal" class="bg-dark text-uppercase text-decoration-lg-none text-white" style="border: none;"><u>${datos.data[i].Titulo} / ${datos.data[i].Puesto}</u></button>
+                                    <p class="d-none" id="card-id-${contador-1}">${datos.data[i].Id}</p>
+                                </div>
                                 <p class="text-center h5 mb-2"><i class="bi bi-building"></i> ${datos.data[i].Empresa}</p>
                             </div>
                             <div class="card-body">
@@ -572,8 +617,8 @@ const cargarDatos = async() => {
                                     <p class="lead d-block"><i class="bi bi-briefcase-fill"></i> <strong>${datos.data[i].TipoEmpleo}</strong></p>
                                 </div>
                                 <hr>
-                                <div class="container text-truncate">
-                                    <p class="lead d-lg-inline d-block text-justify text-truncate">${datos.data[i].Descri}</p>
+                                <div class="container">
+                                    <p class="lead d-lg-inline d-block text-justify">${datos.data[i].Descri.substr(0, 250)}...</p>
                                 </div>
                             </div>
                         </div>
@@ -586,6 +631,7 @@ const cargarDatos = async() => {
                 }
             });
 
+            btnModal = document.getElementById('btn-modal');
             document.getElementById('cards').innerHTML = trabajo;
         } else if(respuesta.status === 404){
             console.log("No se ha encontrado los datos solicitados.")
@@ -598,3 +644,139 @@ const cargarDatos = async() => {
 }
 
 cargarDatos();
+
+/* BOTON DE SCROLL HACIA ARRIBA */
+window.onscroll = function(){
+    if(document.documentElement.scrollTop > 100){
+        document.querySelector('.go-top-container').classList.add('show');
+    }else{
+        document.querySelector('.go-top-container').classList.remove('show');
+    }
+}
+
+document.querySelector('.go-top-container').addEventListener('click', () =>{
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+/* CREACION DE MODALES PARA MAS INFORMACION */
+function modal0(){
+    iCard = console.log(document.getElementById('card-id-' + 0).innerHTML)
+    iCard = document.getElementById('card-id-' + 0).innerHTML
+    cardModal();
+}
+function modal1(){
+    iCard = console.log(document.getElementById('card-id-' + 1).innerHTML)
+    iCard = document.getElementById('card-id-' + 1).innerHTML
+    cardModal();
+}
+function modal2(){
+    iCard = console.log(document.getElementById('card-id-' + 2).innerHTML)
+    iCard = document.getElementById('card-id-' + 2).innerHTML
+    cardModal();
+}
+function modal3(){
+    iCard = console.log(document.getElementById('card-id-' + 3).innerHTML)
+    iCard = document.getElementById('card-id-' + 3).innerHTML
+    cardModal();
+}
+function modal4(){
+    iCard = console.log(document.getElementById('card-id-' + 4).innerHTML)
+    iCard = document.getElementById('card-id-' + 4).innerHTML
+    cardModal();
+}
+function modal5(){
+    iCard = console.log(document.getElementById('card-id-' + 5).innerHTML)
+    iCard = document.getElementById('card-id-' + 5).innerHTML
+    cardModal();
+}
+function modal6(){
+    iCard = console.log(document.getElementById('card-id-' + 6).innerHTML)
+    iCard = document.getElementById('card-id-' + 6).innerHTML
+    cardModal();
+}
+function modal7(){
+    iCard = console.log(document.getElementById('card-id-' + 7).innerHTML)
+    iCard = document.getElementById('card-id-' + 7).innerHTML
+    cardModal();
+}
+function modal8(){
+    iCard = console.log(document.getElementById('card-id-' + 8).innerHTML)
+    iCard = document.getElementById('card-id-' + 8).innerHTML
+    cardModal();
+}
+function modal9(){
+    iCard = console.log(document.getElementById('card-id-' + 9).innerHTML)
+    iCard = document.getElementById('card-id-' + 9).innerHTML
+    cardModal();
+}
+
+const cardModal = async() => {
+    try{
+        const respuesta = await fetch(url);
+
+        if(respuesta.status === 200){
+            const datos = await respuesta.json();
+
+            let modalPrint = '';
+            document.getElementById('container-master').classList = "d-none";
+            document.getElementById('modalContainer').classList.add("d-flex");
+            window.scroll(0, 0);
+            datos.data.forEach(trabajos => {
+
+                if(iCard == datos.data[i2].Id){
+                    modalPrint += `
+                        <div class="col-12 p-0 m-0">
+                            <h2 class="text-center text-uppercase bg-dark display-5 display-md-4 p-4 p-md-5 text-white">
+                                <strong>${datos.data[i2].Titulo} / ${datos.data[i2].Puesto}</strong>
+                            </h2>
+                            <div class="d-flex justify-content-center">
+                            <div class="col-10 my-3 d-flex flex-column flex-md-row flex-wrap-wrap align-items-center">
+                                <div class="col-12 col-md-3 card shadow-sm">
+                                    <div class="card-body d-flex justify-content-center align-items-center">
+                                        <p>anuncio</p>
+                                    </div>
+                                 </div>
+                                <div class="col-12 col-sm-10 col-md-6 my-4 my-md-0 d-flex flex-column mx-3">
+                                    <div class="col-12 card shadow mb-2">
+                                        <div class="card-body py-3 px-4">
+                                            <p class="text-center h5 mb-2"><i class="bi bi-building"></i> ${datos.data[i2].Empresa}</p>
+                                            <p class="lead mb-2 d-block"><i class="bi bi-geo-alt"></i> ${datos.data[i2].UbicacionCiudad}, ${datos.data[i2].UbicacionEstado}.</p>
+                                            <p class="h5 mb-2 d-block text-success"><i class="bi bi-cash"></i> <strong class="px-2">${datos.data[i2].Sueldo}${datos.data[i2].Moneda}</strong></p>
+                                            <p class="lead mb-2 d-block"><i class="bi bi-briefcase-fill"></i> <strong>${datos.data[i2].TipoEmpleo}</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 card shadow mb-2">
+                                        <div class="card-body p-4">
+                                            <h4 class="mb-3">Descripción</h4>
+                                            <p class="mb-4">${datos.data[i2].Descri}</p>
+                                            <div class="d-flex justify-content-center">
+                                                <a href="index.html" class="col-6 text-center btn btn-outline-dark">Postularse</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 card shadow-sm">
+                                    <div class="card-body d-flex justify-content-center align-items-center">
+                                        <p>anuncio</p>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    `;
+    
+                }
+                i2++;
+            });
+
+            document.getElementById('modalContainer').innerHTML = modalPrint;
+        } else if(respuesta.status === 404){
+            console.log("No se ha encontrado los datos solicitados.")
+        }
+        
+
+    } catch(error){
+        console.log("Ha surgido el siguiente error: " + error)
+    }
+}
